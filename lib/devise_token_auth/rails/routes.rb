@@ -5,6 +5,7 @@ module ActionDispatch::Routing
     def mount_devise_token_auth_for(resource, opts)
       # ensure objects exist to simplify attr checks
       opts[:controllers] ||= {}
+      opts[:path_names]  ||= {}
       opts[:skip]        ||= []
 
       # check for ctrl overrides, fall back to defaults
@@ -30,6 +31,7 @@ module ActionDispatch::Routing
       devise_for resource.pluralize.underscore.gsub('/', '_').to_sym,
                  class_name: resource,
                  module: :devise,
+                 path_names: opts[:path_names],
                  path: opts[:at].to_s,
                  controllers: controllers,
                  skip: opts[:skip] + [:omniauth_callbacks]
